@@ -1,23 +1,85 @@
 <!DOCTYPE html>
 <html>
+<head>
+<style>
+.container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+button {
+  height: 50px;
+}
+</style>
+</head>
 <body>
 
-<h2>Calculator</h2>
+<div id="result">0</div>
+<div class="container">
+  <button onclick="appendNumber('1')">1</button>
+  <button onclick="appendNumber('2')">2</button>
+  <button onclick="appendNumber('3')">3</button>
+  <button onclick="calculate('+')">+</button>
+  <button onclick="appendNumber('4')">4</button>
+  <button onclick="appendNumber('5')">5</button>
+  <button onclick="appendNumber('6')">6</button>
+  <button onclick="calculate('-')">-</button>
+  <button onclick="appendNumber('7')">7</button>
+  <button onclick="appendNumber('8')">8</button>
+  <button onclick="appendNumber('9')">9</button>
+  <button onclick="calculate('*')">*</button>
+  <button onclick="appendNumber('0')">0</button>
+  <button onclick="clearInput()">C</button>
+  <button onclick="calculateResult()">=</button>
+  <button onclick="calculate('/')">/</button>
+</div>
 
-<form action="/calculate" method="post">
-  <label for="num1">First number:</label><br>
-  <input type="number" id="num1" name="num1"><br>
-  <label for="num2">Second number:</label><br>
-  <input type="number" id="num2" name="num2"><br>
-  <label for="operator">Operator:</label><br>
-  <select id="operator" name="operator">
-    <option value="add">Add</option>
-    <option value="subtract">Subtract</option>
-    <option value="multiply">Multiply</option>
-    <option value="divide">Divide</option>
-  </select><br>
-  <input type="submit" value="Calculate">
-</form>
+<script>
+let input = '';
+let operator = null;
+let operand = null;
+
+function appendNumber(number) {
+  input += number;
+  document.getElementById('result').innerText = formatNumber(input);
+}
+
+function calculate(op) {
+  if (operator !== null) calculateResult();
+  operator = op;
+  operand = Number(input);
+  input = '';
+}
+function calculateResult() {
+  if (operator !== null) {
+    switch (operator) {
+      case '+': input = operand + Number(input); break;
+      case '-': input = operand - Number(input); break;
+      case '*': input = operand * Number(input); break;
+      case '/': input = operand / Number(input); break;
+    }
+    operator = null;
+    operand = null;
+    
+    if (isFinite(input)) {
+      document.getElementById('result').innerText = formatNumber(input);
+    } else {
+      document.getElementById('result').innerText = "Error: Number too large";
+      clearInput();
+    }
+  }
+}
+function clearInput() {
+  input = '';
+  operator = null;
+  operand = null;
+  document.getElementById('result').innerText = '0';
+}
+
+function formatNumber(number) {
+  return Number(number).toLocaleString();
+}
+</script>
 
 </body>
 </html>
