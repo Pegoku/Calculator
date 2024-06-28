@@ -1,85 +1,126 @@
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-.container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-}
-button {
-  height: 50px;
-}
-</style>
-</head>
-<body>
+  <head>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f5f5f5;
+        font-family: Arial, sans-serif;
+      }
 
-<div id="result">0</div>
-<div class="container">
-  <button onclick="appendNumber('1')">1</button>
-  <button onclick="appendNumber('2')">2</button>
-  <button onclick="appendNumber('3')">3</button>
-  <button onclick="calculate('+')">+</button>
-  <button onclick="appendNumber('4')">4</button>
-  <button onclick="appendNumber('5')">5</button>
-  <button onclick="appendNumber('6')">6</button>
-  <button onclick="calculate('-')">-</button>
-  <button onclick="appendNumber('7')">7</button>
-  <button onclick="appendNumber('8')">8</button>
-  <button onclick="appendNumber('9')">9</button>
-  <button onclick="calculate('*')">*</button>
-  <button onclick="appendNumber('0')">0</button>
-  <button onclick="clearInput()">C</button>
-  <button onclick="calculateResult()">=</button>
-  <button onclick="calculate('/')">/</button>
-</div>
+      .container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        width: 200px;
+        background-color: #333;
+        padding: 20px;
+        border-radius: 10px;
+      }
 
-<script>
-let input = '';
-let operator = null;
-let operand = null;
+      button {
+        height: 50px;
+        border: none;
+        color: white;
+        font-size: 1.2em;
+        border-radius: 5px;
+        background: linear-gradient(to right, #ff9966, #ff5e62);
+      }
 
-function appendNumber(number) {
-  input += number;
-  document.getElementById('result').innerText = formatNumber(input);
-}
+      #result {
+        height: 50px;
+        width: 89.25%;
+        padding: 10px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        text-align: right;
+        line-height: 30px;
+        font-size: 1.2em;
+        margin-bottom: 20px;
+        grid-column: span 4;
+      }
+    </style>
+  </head>
 
-function calculate(op) {
-  if (operator !== null) calculateResult();
-  operator = op;
-  operand = Number(input);
-  input = '';
-}
-function calculateResult() {
-  if (operator !== null) {
-    switch (operator) {
-      case '+': input = operand + Number(input); break;
-      case '-': input = operand - Number(input); break;
-      case '*': input = operand * Number(input); break;
-      case '/': input = operand / Number(input); break;
-    }
-    operator = null;
-    operand = null;
-    
-    if (isFinite(input)) {
-      document.getElementById('result').innerText = formatNumber(input);
-    } else {
-      document.getElementById('result').innerText = "Error: Number too large";
-      clearInput();
-    }
-  }
-}
-function clearInput() {
-  input = '';
-  operator = null;
-  operand = null;
-  document.getElementById('result').innerText = '0';
-}
+  <body>
+    <div class="container">
+      <div id="result">0</div>
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button onclick="calculate('+')">+</button>
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button onclick="calculate('-')">-</button>
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button onclick="calculate('*')">*</button>
+      <button onclick="appendNumber('0')">0</button>
+      <button onclick="clearInput()">C</button>
+      <button onclick="calculateResult()">=</button>
+      <button onclick="calculate('/')">/</button>
+    </div>
 
-function formatNumber(number) {
-  return Number(number).toLocaleString();
-}
-</script>
+    <script>
+      let input = "";
+      let operator = null;
+      let operand = null;
 
-</body>
+      function appendNumber(number) {
+        input += number;
+        document.getElementById("result").innerText = formatNumber(input);
+      }
+
+      function calculate(op) {
+        if (operator !== null) calculateResult();
+        operator = op;
+        operand = Number(input);
+        input = "";
+      }
+      function calculateResult() {
+        if (operator !== null) {
+          switch (operator) {
+            case "+":
+              input = operand + Number(input);
+              break;
+            case "-":
+              input = operand - Number(input);
+              break;
+            case "*":
+              input = operand * Number(input);
+              break;
+            case "/":
+              input = operand / Number(input);
+              break;
+          }
+          operator = null;
+          operand = null;
+
+          if (isFinite(input)) {
+            document.getElementById("result").innerText = formatNumber(input);
+          } else {
+            document.getElementById("result").innerText =
+              "Error: Number too large";
+            clearInput();
+          }
+        }
+      }
+      function clearInput() {
+        input = "";
+        operator = null;
+        operand = null;
+        document.getElementById("result").innerText = "0";
+      }
+
+      function formatNumber(number) {
+        return Number(number).toLocaleString();
+      }
+    </script>
+  </body>
 </html>
